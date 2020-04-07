@@ -24,7 +24,7 @@ class MainActivity : BaseMvpActivity(), SplashView, MainView {
         btnSync.setOnClickListener { mainPresenter?.appSync("kotlin 同步") }
     }
 
-    override fun initView(savedInstanceState: Bundle?) {}
+    override fun initView(savedInstanceState: Bundle) {}
     override fun appSync(msg: String) {
         btnSync.text = msg
     }
