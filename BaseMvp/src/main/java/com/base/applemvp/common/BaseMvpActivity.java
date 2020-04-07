@@ -41,7 +41,7 @@ public abstract class BaseMvpActivity extends BaseActivity implements IBaseView,
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         mProxy.onCreate(this);
         super.onCreate(savedInstanceState);
     }
