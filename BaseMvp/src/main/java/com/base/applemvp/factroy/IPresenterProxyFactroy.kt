@@ -1,5 +1,8 @@
 package com.base.applemvp.factroy
 
+import com.base.applemvp.common.BasePresenter
+import com.base.applemvp.common.IBaseView
+
 /**
  * applehsp
  *
@@ -20,7 +23,7 @@ interface IPresenterProxyFactroy {
      * 设置创建Presenter的工厂
      * @param presenterFactory PresenterFactory类型
      */
-    var presenterFactory: IMvpPresenterFactroy<*>
+    var presenterFactory: IMvpPresenterFactroy<BasePresenter<out IBaseView>>
     /**
      * 获取创建的Presenter
      *

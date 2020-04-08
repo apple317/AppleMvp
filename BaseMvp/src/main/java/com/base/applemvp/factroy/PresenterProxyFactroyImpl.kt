@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import com.base.applemvp.common.BasePresenter
 import com.base.applemvp.common.IBaseView
+import java.util.ArrayList
 
 /**
  * applehsp
  */
-class PresenterProxyFactroyImpl<P : BasePresenter<out IBaseView>>(presenterMvpFactory: IMvpPresenterFactroy<P>, override var presenterFactory: IMvpPresenterFactroy<*>) : IPresenterProxyFactroy {
+class PresenterProxyFactroyImpl  constructor(override var presenterFactory: IMvpPresenterFactroy<BasePresenter<out IBaseView>>) : IPresenterProxyFactroy {
     /**
      * Presenter工厂类
      */
-    var mFactory: IMvpPresenterFactroy<P> ? = null
-    var mPresenter: List<P>? = null
+    var mFactory: IMvpPresenterFactroy<BasePresenter<out IBaseView>> ? = null
+    var mPresenter: ArrayList<BasePresenter<out IBaseView>>? = null
     private var mBundle: Bundle? = null
     private var mIsAttchView = false
 
@@ -94,6 +95,6 @@ class PresenterProxyFactroyImpl<P : BasePresenter<out IBaseView>>(presenterMvpFa
     }
 
     init {
-        mFactory = presenterMvpFactory
+        mFactory = presenterFactory
     }
 }

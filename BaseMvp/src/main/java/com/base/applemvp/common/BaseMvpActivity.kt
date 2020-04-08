@@ -1,12 +1,10 @@
 package com.base.applemvp.common
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import com.base.applemvp.annotations.CreatePresenterAnnotation
+import com.base.applemvp.factroy.MvpPresenterFactroyImpl
+import com.base.applemvp.factroy.PresenterProxyFactroyImpl
 import com.trello.rxlifecycle3.LifecycleTransformer
-import java.util.ArrayList
-import kotlin.reflect.KClass
 
 /**
  * @author applehsp
@@ -22,47 +20,15 @@ abstract class BaseMvpActivity : BaseActivity(), IBaseView {
         }
         return bindToLifecycle()
     }
-
+    val mProxy=PresenterProxyFactroyImpl( MvpPresenterFactroyImpl.mvpCreate(this))
     /**
      * 创建被代理对象,传入默认Presenter的工厂
      */
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        initMvp(this)
+        mProxy.onCreate(this)
         super.onCreate(savedInstanceState)
     }
 
-    val currentPresenter: MutableList<BasePresenter<out IBaseView>> = ArrayList<BasePresenter<out IBaseView>>()
-    fun initMvp(context: Context) {
-        try {
-            val fields = context.javaClass.declaredFields
-            for (field in fields) {
-                if (field.isAnnotationPresent(CreatePresenterAnnotation::class.java)) {
-                    Log.e("HU", "MvpPresenterFactroyImpl=11111===$fields")
-                    val address = field.getAnnotation(CreatePresenterAnnotation::class.java)
-                    val presenter: KClass<out BasePresenter<out IBaseView>> = address.value
-                    try {
-                        field.isAccessible = true //设置属性值的访问权限
-                        val presenter1: BasePresenter<*> = presenter.java.newInstance()
-                        field[context] = presenter1 //将查找到的view指定给目标对象object
-                        currentPresenter.add(presenter1)
-                    } catch (e: IllegalAccessException) {
-                        Log.e("HU", "MvpPresenterFactroyImpl=IllegalAccessException===$context")
-                        throw RuntimeException(e)
-                    } catch (e: InstantiationException) {
-                        Log.e("HU", "MvpPresenterFactroyImpl=InstantiationException===$context")
-                        e.printStackTrace()
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("HU", "MvpPresenterFactroyImpl=2222===$context")
-            e.printStackTrace()
-        }
-        for (presenter in currentPresenter!!) {
-            presenter.attatchView(this)
-        }
-    }
 
     override fun onResume() {
         super.onResume()
@@ -71,14 +37,10 @@ abstract class BaseMvpActivity : BaseActivity(), IBaseView {
 
     override fun onDestroy() {
         super.onDestroy()
+        mProxy.onDestroy()
         /**
          * 销毁Presenter
          */
-        if (currentPresenter != null) {
-            for (presenter in currentPresenter!!) {
-                presenter.attatchView(this)
-            }
-        }
         Log.e("perfect-mvp", "V onDestroy = ")
     }
 

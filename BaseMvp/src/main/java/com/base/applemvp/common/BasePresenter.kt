@@ -43,18 +43,8 @@ abstract class BasePresenter<V : IBaseView> {
      */
     fun attatchView(v: IBaseView) {
         weak.weakReference=WeakReference(v)
-        val viewHandler = MvpViewHandler(weak.weakReference!!.get() as IBaseView)
-        view = Proxy.newProxyInstance(
-                this::class.java.classLoader,
-                v.javaClass.interfaces,
-                object : InvocationHandler {
-                    //这里要注意的是在ide自动生成的invoke方法中，返回值是Any，由于obj可能为空，所以要手动添加？
-                    override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
-                        // 因为invoke接受的第二个参数是可变参数，而传来的args是array，所以就需要*操作符将array变成可变的参数。
-                        val obj = method!!.invoke(v, *args.orEmpty())
-                        return obj
-                    }
-                })as V
+        val viewHandler = weak.weakReference.get()?.let { MvpViewHandler(it) }
+        view = Proxy.newProxyInstance(this::class.java.classLoader, v.javaClass.interfaces,viewHandler)as V
     }
 
     /**

@@ -5,7 +5,8 @@ import android.util.Log
 import com.base.applemvp.annotations.CreatePresenterAnnotation
 import com.base.applemvp.common.BasePresenter
 import com.base.applemvp.common.IBaseView
-import java.util.*
+import com.trello.rxlifecycle3.components.RxFragment
+import kotlin.collections.ArrayList
 import kotlin.reflect.KClass
 
 /**
@@ -15,7 +16,7 @@ import kotlin.reflect.KClass
  * 创建presenter
  * 动态 工厂的实现类
  */
-class MvpPresenterFactroyImpl<P : BasePresenter<out IBaseView>> private constructor(presenterClass: MutableList<BasePresenter<out IBaseView>>) : IMvpPresenterFactroy<P> {
+class MvpPresenterFactroyImpl   constructor(presenterClass: ArrayList<BasePresenter<out IBaseView>>) : IMvpPresenterFactroy<BasePresenter<out IBaseView>> {
 
 
     companion object {
@@ -26,35 +27,35 @@ class MvpPresenterFactroyImpl<P : BasePresenter<out IBaseView>> private construc
          * @param <P>    当前要创建的Presenter类型
          * @return 工厂类
         </P></V> */
-//        fun <V : IBaseView, P : BasePresenter<V>> createrFragment(fragment: Fragment): MvpPresenterFactroyImpl<*, *> { //拿到创建presenter的注解
-//            val currentPresenter: MutableList<BasePresenter> = ArrayList<BasePresenter>()
-//            try {
-//                val fields = fragment.javaClass.declaredFields
-//                for (field in fields) {
-//                    if (field.isAnnotationPresent(CreatePresenterAnnotation::class.java)) {
-//                        Log.e("HU", "MvpPresenterFactroyImpl=11111===$fields")
-//                        val address = field.getAnnotation(CreatePresenterAnnotation::class.java)
-//                        val presenter: Class<BasePresenter> = address.value()
-//                        try {
-//                            field.isAccessible = true //设置属性值的访问权限
-//                            val presenter1: BasePresenter? = presenter.newInstance()
-//                            Log.e("HU", "MvpPresenterFactroyImpl=3333=presenter1==$presenter1")
-//                            field[fragment] = presenter1 //将查找到的view指定给目标对象object
-//                            Log.e("HU", "MvpPresenterFactroyImpl=444=presenter1==$presenter1")
-//                            currentPresenter.add(presenter1)
-//                        } catch (e: IllegalAccessException) {
-//                            e.printStackTrace()
-//                        } catch (e: InstantiationException) {
-//                            e.printStackTrace()
-//                        }
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                Log.e("HU", "MvpPresenterFactroyImpl=2222===$e")
-//                e.printStackTrace()
-//            }
-//            return MvpPresenterFactroyImpl<Any, Any>(currentPresenter)
-//        }
+        fun  createrFragment(fragment: RxFragment): MvpPresenterFactroyImpl { //拿到创建presenter的注解
+            val currentPresenter: ArrayList<BasePresenter<out IBaseView>> = ArrayList<BasePresenter<out IBaseView>>()
+            try {
+                val fields = fragment.javaClass.declaredFields
+                for (field in fields) {
+                    if (field.isAnnotationPresent(CreatePresenterAnnotation::class.java)) {
+                        Log.e("HU", "MvpPresenterFactroyImpl=11111===$fields")
+                        val address = field.getAnnotation(CreatePresenterAnnotation::class.java)
+                        val presenter: KClass<out BasePresenter<out IBaseView>> = address.value
+                        try {
+                            field.isAccessible = true //设置属性值的访问权限
+                            val presenter1: BasePresenter<out IBaseView> = presenter.java.newInstance()!!
+                            Log.e("HU", "MvpPresenterFactroyImpl=3333=presenter1==$presenter1")
+                            field[fragment] = presenter1 //将查找到的view指定给目标对象object
+                            Log.e("HU", "MvpPresenterFactroyImpl=444=presenter1==$presenter1")
+                            currentPresenter.add(presenter1)
+                        } catch (e: IllegalAccessException) {
+                            e.printStackTrace()
+                        } catch (e: InstantiationException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("HU", "MvpPresenterFactroyImpl=2222===$e")
+                e.printStackTrace()
+            }
+            return MvpPresenterFactroyImpl(currentPresenter)
+        }
 
         /**
          * 根据注解创建Presenter的工厂实现类
@@ -63,8 +64,8 @@ class MvpPresenterFactroyImpl<P : BasePresenter<out IBaseView>> private construc
          * @param <P>    当前要创建的Presenter类型
          * @return 工厂类
         </P></V> */
-        fun <P : BasePresenter<out IBaseView>> mvpCreate(context: Context): MvpPresenterFactroyImpl<P> { //拿到创建presenter的注解
-            val currentPresenter: MutableList<BasePresenter<out IBaseView>> = ArrayList<BasePresenter<out IBaseView>>()
+        fun  mvpCreate(context: Context): MvpPresenterFactroyImpl{ //拿到创建presenter的注解
+            val currentPresenter: ArrayList<BasePresenter<out IBaseView>> = ArrayList<BasePresenter<out IBaseView>>()
             Log.e("HU", "MvpPresenterFactroyImpl=creater===$context")
             try {
                 val fields = context.javaClass.declaredFields
@@ -72,10 +73,10 @@ class MvpPresenterFactroyImpl<P : BasePresenter<out IBaseView>> private construc
                     if (field.isAnnotationPresent(CreatePresenterAnnotation::class.java)) {
                         Log.e("HU", "MvpPresenterFactroyImpl=11111===$fields")
                         val address = field.getAnnotation(CreatePresenterAnnotation::class.java)
-                        val presenter: KClass<out BasePresenter<*>> = address.value
+                        val presenter: KClass<out BasePresenter<out IBaseView>> = address.value
                         try {
                             field.isAccessible = true //设置属性值的访问权限
-                            val presenter1: BasePresenter<*> = presenter.objectInstance!!
+                            val presenter1: BasePresenter<out IBaseView> = presenter.java.newInstance()!!
                             field[context] = presenter1 //将查找到的view指定给目标对象object
                             currentPresenter.add(presenter1)
                         } catch (e: IllegalAccessException) {
@@ -95,18 +96,20 @@ class MvpPresenterFactroyImpl<P : BasePresenter<out IBaseView>> private construc
         }
     }
 
-    private var mPresenterClass: ArrayList<*>? = null
+    private var mvpPresenterFactroyImpl: ArrayList<BasePresenter<out IBaseView>>? = null
 
-    private fun MvpPresenterFactroyImpl(presenterClass: ArrayList<*>) {
-        mPresenterClass = presenterClass
+
+    init {
+        mvpPresenterFactroyImpl = presenterClass
     }
 
-    override fun createMvpPresenter(): ArrayList<P> {
+
+    override fun createMvpPresenter(): ArrayList<BasePresenter<out IBaseView>> {
         return try {
-            mPresenterClass
+            mvpPresenterFactroyImpl
         } catch (e: java.lang.Exception) {
-            null
-        } as ArrayList<P>
+            e.printStackTrace()
+        } as ArrayList<BasePresenter<out IBaseView>>
     }
 
 }
