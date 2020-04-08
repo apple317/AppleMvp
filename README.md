@@ -1,8 +1,8 @@
 ## 前言
 
   博主最近空了整理了mvp架构，其实在真实项目中小公司都是一个base，然后mvp基本都是activity、fragement对应一个
-Presenter或者view，以前用drager注入，一个项目有几百个model、Presenter、view,还都是类上泛型实现，我们mvp可
-不可以公用、即用及插入，我这个就实现了原理靠注释、反射、动态代理、工厂模式,代码分为java和kotlin，请看对应分支，
+Presenter或者view，以前用drager注入，一个项目有几百个model、Presenter、view,还都是类上泛型实现，业务层应该
+复用和公用、即用及注释，我这个就实现了原理靠注释、反射、动态代理、工厂模式,代码分为java和kotlin，请看对应分支，
 两套代码实现思路原理差不多，博客还会分享网络kotlin组件、插件化、热更新、eventbus、butterknife,博主这些年心得，
 所有技术其实原理大多都超不过100行代码，一定要动手实践，阅万千代码，不如搂一遍，实践是王道，博主马上会转flutter，
 麻烦多点星哦，谢谢！
