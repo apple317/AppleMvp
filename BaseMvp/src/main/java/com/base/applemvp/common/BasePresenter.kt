@@ -31,7 +31,7 @@ abstract class BasePresenter<V : IBaseView> {
      *
      * 弱引用, 防止内存泄漏
      */
-    var mWeakReference: WeakReference<V> ?=null
+    var weak =Weak<IBaseView>()
     /**
      * 解决第二个问题
      */
@@ -42,16 +42,26 @@ abstract class BasePresenter<V : IBaseView> {
      *
      */
     fun attatchView(v: IBaseView) {
-        mWeakReference = WeakReference(v)
-        val viewHandler = MvpViewHandler(mWeakReference!!.get())
-        view = Proxy.newProxyInstance(v::class.java.javaClass.classLoader, v::class.java.javaClass.interfaces, viewHandler) as V
+        weak.weakReference=WeakReference(v)
+        val viewHandler = MvpViewHandler(weak.weakReference!!.get() as IBaseView)
+        view = Proxy.newProxyInstance(
+                this::class.java.classLoader,
+                v.javaClass.interfaces,
+                object : InvocationHandler {
+                    //这里要注意的是在ide自动生成的invoke方法中，返回值是Any，由于obj可能为空，所以要手动添加？
+                    override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
+                        // 因为invoke接受的第二个参数是可变参数，而传来的args是array，所以就需要*操作符将array变成可变的参数。
+                        val obj = method!!.invoke(v, *args.orEmpty())
+                        return obj
+                    }
+                })as V
     }
 
     /**
      * @return P层和V层是否关联.
      */
     val isViewAttached: Boolean
-        get() = mWeakReference != null && mWeakReference!!.get() != null
+        get() = weak.weakReference != null && weak.weakReference!!.get() != null
 
     /**
      * 断开V层和P层
@@ -59,8 +69,7 @@ abstract class BasePresenter<V : IBaseView> {
      */
     fun detachView() {
         if (isViewAttached) {
-            mWeakReference!!.clear()
-            mWeakReference = null
+            weak.weakReference!!.clear()
         }
     }
 
@@ -83,7 +92,7 @@ abstract class BasePresenter<V : IBaseView> {
     /**
      * 动态代理类
      */
-    private inner class MvpViewHandler internal constructor(private val mvpView: IBaseView?) : InvocationHandler {
+    private inner class MvpViewHandler internal constructor(private val mvpView: IBaseView) : InvocationHandler {
         @Throws(Throwable::class)
         override fun invoke(proxy: Any, method: Method, args: Array<Any>): Any? { //解决第三个问题，如果V层没被销毁, 执行V层的方法.
             try {

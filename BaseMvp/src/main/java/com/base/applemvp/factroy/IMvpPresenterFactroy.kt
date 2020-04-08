@@ -1,5 +1,7 @@
 package com.base.applemvp.factroy
 
+import java.util.ArrayList
+
 /**
  * applehsp
  *
@@ -12,5 +14,5 @@ interface IMvpPresenterFactroy<P> {
      *
      * @return 需要创建的Presenter
      */
-    fun createMvpPresenter(): List<P>
+    fun createMvpPresenter(): ArrayList<P>?
 }

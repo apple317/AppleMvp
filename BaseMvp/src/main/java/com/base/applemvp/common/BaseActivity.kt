@@ -50,6 +50,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
 
     protected abstract fun initData()
     protected abstract fun initView(savedInstanceState: Bundle?)
+
     override fun onResume() {
         super.onResume()
     }
