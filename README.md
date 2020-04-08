@@ -10,6 +10,8 @@ Presenter或者view，以前用drager注入，一个项目有几百个model、Pr
 - [Kotlin Android 扩展](https://www.kotlincn.net/docs/tutorials/android-plugin.html)是一个编译器扩展， 可以让你摆脱代码中的 `findViewById()` 调用，并将其替换为合成的编译器生成的属性。
 - [Anko](http://github.com/kotlin/anko) 是一个提供围绕 Android API 的 Kotlin 友好的包装器的库 ，以及一个可以用 Kotlin 代码替换布局 .xml 文件的 DSL。
 
+
+###kotlin版本
 ```
 class MainActivity : BaseMvpActivity(), SplashView, MainView {
     @CreatePresenterAnnotation(SplashPresenter::class)
@@ -35,6 +37,63 @@ class MainActivity : BaseMvpActivity(), SplashView, MainView {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+    }
+}
+```
+
+###java版本
+```
+public class MainActivity extends BaseMvpActivity implements SplashView, MainView{
+
+
+    @BindView(R.id.btnSync)
+    Button btnSync;
+    @BindView(R.id.btnAdvert)
+    Button btnAdvert;
+
+
+    @CreatePresenterAnnotation(SplashPresenter.class)
+    SplashPresenter splashPresenter;
+
+    @CreatePresenterAnnotation(MainPresenter.class)
+    MainPresenter mainPresenter;
+
+    @Override
+    public int setLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    public void appSync(String msg) {
+        btnSync.setText(msg);
+    }
+
+    @Override
+    public void advertList(String advert) {
+        btnAdvert.setText(advert);
+    }
+
+
+    @OnClick({R.id.btnSync, R.id.btnAdvert})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnSync:
+                mainPresenter.appSync("首页初始化");
+                break;
+            case R.id.btnAdvert:
+                splashPresenter.advertList("启动页初始化");
+                break;
+        }
     }
 }
 ```
