@@ -18,7 +18,7 @@ abstract class BaseMvpFragment : BaseFragment(), IBaseView, IPresenterProxyFactr
     /**
      * 创建被代理对象,传入默认Presenter的工厂
      */
-    private var mProxy: PresenterProxyFactroyImpl = PresenterProxyFactroyImpl(MvpPresenterFactroyImpl.createrFragment(this))
+    private var mProxy: PresenterProxyFactroyImpl = PresenterProxyFactroyImpl(MvpPresenterFactroyImpl.mvpCreate(this))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.e("HU", "onCreateView=BaseMvpFragment===$mProxy")

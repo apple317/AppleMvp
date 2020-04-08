@@ -27,7 +27,7 @@ class MvpPresenterFactroyImpl   constructor(presenterClass: ArrayList<BasePresen
          * @param <P>    当前要创建的Presenter类型
          * @return 工厂类
         </P></V> */
-        fun  createrFragment(fragment: RxFragment): MvpPresenterFactroyImpl { //拿到创建presenter的注解
+        fun  mvpCreate(fragment: RxFragment): MvpPresenterFactroyImpl { //拿到创建presenter的注解
             val currentPresenter: ArrayList<BasePresenter<out IBaseView>> = ArrayList<BasePresenter<out IBaseView>>()
             try {
                 val fields = fragment.javaClass.declaredFields
