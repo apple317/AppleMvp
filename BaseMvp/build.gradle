@@ -28,10 +28,10 @@ dependencies {
 
 publish {
     userOrg = 'applehusp'
-    repoName='com.apple.mvp'
-    groupId = 'com.apple.mvp'
-    artifactId = 'java-mvp'
+    repoName='com.applehsp.mvp'
+    groupId = 'com.applehsp.mvp'
+    artifactId = 'mvp-java'
     publishVersion = '1.0.0'
     desc = 'this is a frame for android base'
-    website = 'https://github.com/apple317/ModelPlugin.git'
+    website = 'https://github.com/apple317/AppleMvp.git'
 }
