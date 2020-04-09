@@ -1,6 +1,6 @@
+apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.novoda.bintray-release'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -8,7 +8,6 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -30,10 +29,10 @@ dependencies {
 
 publish {
     userOrg = 'applehusp'
-    repoName='com.apple.mvp'
-    groupId = 'com.apple.mvp'
-    artifactId = 'java-mvp'
+    repoName='com.applehsp.mvp'
+    groupId = 'com.applehsp.mvp'
+    artifactId = 'mvp-kotlin'
     publishVersion = '1.0.0'
     desc = 'this is a frame for android base'
-    website = 'https://github.com/apple317/ModelPlugin.git'
+    website = 'https://github.com/apple317/AppleMvp.git'
 }

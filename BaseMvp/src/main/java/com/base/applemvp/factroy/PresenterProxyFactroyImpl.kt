@@ -69,7 +69,7 @@ class PresenterProxyFactroyImpl  constructor(override var presenterFactory: IMvp
             val presenterBundle = Bundle()
             //回调Presenter
             for (presenter in mPresenter!!) {
-                presenter!!.onSaveInstanceState(presenterBundle)
+                presenter.onSaveInstanceState(presenterBundle)
             }
             bundle.putBundle(PRESENTER_KEY, presenterBundle)
         }

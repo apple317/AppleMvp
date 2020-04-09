@@ -34,5 +34,7 @@ class MainActivity : BaseMvpActivity(), SplashView, MainView {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+
     }
+
 }

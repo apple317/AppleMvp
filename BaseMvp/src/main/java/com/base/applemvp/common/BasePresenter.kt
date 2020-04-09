@@ -41,6 +41,7 @@ abstract class BasePresenter<V : IBaseView> {
      * 关联V层和P层
      *
      */
+    @Suppress("UNCHECKED_CAST")
     fun attatchView(v: IBaseView) {
         weak.weakReference=WeakReference(v)
         val viewHandler = weak.weakReference.get()?.let { MvpViewHandler(it) }
@@ -51,7 +52,7 @@ abstract class BasePresenter<V : IBaseView> {
      * @return P层和V层是否关联.
      */
     val isViewAttached: Boolean
-        get() = weak.weakReference != null && weak.weakReference!!.get() != null
+        get() = weak.weakReference.get() != null
 
     /**
      * 断开V层和P层
@@ -59,7 +60,7 @@ abstract class BasePresenter<V : IBaseView> {
      */
     fun detachView() {
         if (isViewAttached) {
-            weak.weakReference!!.clear()
+            weak.weakReference.clear()
         }
     }
 
@@ -70,13 +71,14 @@ abstract class BasePresenter<V : IBaseView> {
         Log.e("perfect-mvp", "P onDestroy = ")
     }
 
+    var statueBundle:Bundle ?=null
+
     /**
      * 在Presenter意外销毁的时候被调用，它的调用时机和Activity、Fragment、View中的onSaveInstanceState
      * 时机相同
-     *
      */
-    fun onSaveInstanceState(presenterBundle: Bundle?) {
-        Log.e("perfect-mvp", "P onSaveInstanceState = ")
+    fun onSaveInstanceState(presenterBundle: Bundle) {
+        statueBundle=presenterBundle
     }
 
     /**
