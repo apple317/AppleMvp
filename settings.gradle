@@ -1,1 +1,1 @@
-include ':app', ':BaseMvp'
+include ':app', ':MvpKotlin'

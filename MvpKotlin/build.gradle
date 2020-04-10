@@ -1,17 +1,12 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 28
-
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -20,20 +15,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.trello.rxlifecycle3:rxlifecycle:3.0.0'
+    api 'androidx.multidex:multidex:2.0.0'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.70"
+    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
 }
 
-
-// 以下内容是将Library上传到Bintray的相关配置
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
@@ -41,7 +36,7 @@ apply plugin: 'com.jfrog.bintray'
 //发布者的组织名称
 group = "com.applehsp.mvp"
 // 版本号，下次更新是只需要更改版本号即可
-version = "0.0.1"
+version = "1.0.0"
 //上面配置后上传至bintray后的编译路径是这样的： compile 'com.clwater:bintraylibrary:0.0.1'
 
 Properties properties = new Properties()
@@ -58,7 +53,7 @@ def gitUrl = 'https://github.com/apple317/AppleMvp.git'
 //发布到JCenter上的项目名字，必须填写
 def libName = "mvp-kotlin"
 //文档连接
-def javaDocLinks = "https://github.com/clwater"
+def javaDocLinks = "https://github.com/apple317/AppleMvp.git"
 //Bintray中Repository的名字
 def bintrayRepo = "com.applehsp.mvp"
 //应用的描述
@@ -146,7 +141,7 @@ bintray {
         userOrg = bintrayUserOrg
         repo = bintrayRepo
         name = libName
-        desc =  bintrayDesc
+        desc = bintrayDesc
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
