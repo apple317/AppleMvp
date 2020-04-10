@@ -105,7 +105,7 @@ public class MainActivity extends BaseMvpActivity implements SplashView, MainVie
 
 ## 关于我
 
- - Email: 513888967.com
+ - Email: 513888967@qq.com hushaoping518@gmail.com
  - CSDN:[https://blog.csdn.net/Apple_hsp](https://blog.csdn.net/Apple_hsp)
 
 ## Thanks
