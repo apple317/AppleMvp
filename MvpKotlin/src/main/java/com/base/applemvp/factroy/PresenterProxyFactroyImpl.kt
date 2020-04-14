@@ -81,7 +81,7 @@ class PresenterProxyFactroyImpl  constructor(override var presenterFactory: IMvp
      *
      * @param savedInstanceState 意外关闭时存储的Bundler
      */
-    fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    fun onRestoreInstanceState(savedInstanceState: Bundle) {
         Log.e("perfect-mvp", "Proxy onRestoreInstanceState = ")
         Log.e("perfect-mvp", "Proxy onRestoreInstanceState Presenter = $mPresenter")
         mBundle = savedInstanceState

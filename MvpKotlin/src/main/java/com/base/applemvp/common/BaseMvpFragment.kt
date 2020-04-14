@@ -14,11 +14,11 @@ import com.trello.rxlifecycle3.android.FragmentEvent
 /**
  * @author applehsp
  */
-abstract class BaseMvpFragment : BaseFragment(), IBaseView, IPresenterProxyFactroy {
+abstract class BaseMvpFragment : BaseFragment(), IBaseView {
     /**
      * 创建被代理对象,传入默认Presenter的工厂
      */
-    private var mProxy: PresenterProxyFactroyImpl = PresenterProxyFactroyImpl(MvpPresenterFactroyImpl.mvpCreate(this))
+     var mProxy: PresenterProxyFactroyImpl = PresenterProxyFactroyImpl(MvpPresenterFactroyImpl.mvpCreate(this))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.e("HU", "onCreateView=BaseMvpFragment===$mProxy")

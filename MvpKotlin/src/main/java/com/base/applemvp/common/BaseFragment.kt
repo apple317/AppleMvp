@@ -26,7 +26,7 @@ abstract class BaseFragment : RxFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(fragmentLayout, container, false)
+        rootView = inflater.inflate(setLayoutId(), container, false)
         initView()
         initData()
         return rootView
@@ -36,16 +36,11 @@ abstract class BaseFragment : RxFragment() {
         super.onDestroyView()
     }
 
-    /**
-     * 当Activity初始化之后可以在这里进行一些数据的初始化操作
-     */
-    override fun onActivityCreated(savedInstanceState: Bundle) {
-        super.onActivityCreated(savedInstanceState)
-    }
 
-    abstract val fragmentLayout: Int
-    protected abstract fun initView()
-    protected abstract fun initData()
+
+     abstract fun setLayoutId(): Int
+     abstract fun initView()
+     abstract fun initData()
 
     /**
      * 弹出栈顶部的Fragment
