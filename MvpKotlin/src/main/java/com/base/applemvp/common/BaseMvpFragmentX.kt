@@ -13,7 +13,7 @@ import com.trello.rxlifecycle3.android.FragmentEvent
 /**
  * @author applehsp
  */
-abstract class BaseMvpFragment : BaseFragment(), IBaseView {
+abstract class BaseMvpFragmentX : BaseFragmentX(), IBaseView {
     /**
      * 创建被代理对象,传入默认Presenter的工厂
      */

@@ -3,9 +3,10 @@ package com.base.applemvp.factroy
 import android.content.Context
 import android.util.Log
 import com.base.applemvp.annotations.CreatePresenterAnnotation
+import com.base.applemvp.common.BaseFragment
+import com.base.applemvp.common.BaseFragmentX
 import com.base.applemvp.common.BasePresenter
 import com.base.applemvp.common.IBaseView
-import com.trello.rxlifecycle3.components.RxFragment
 import kotlin.collections.ArrayList
 import kotlin.reflect.KClass
 
@@ -27,7 +28,7 @@ class MvpPresenterFactroyImpl   constructor(presenterClass: ArrayList<BasePresen
          * @param <P>    当前要创建的Presenter类型
          * @return 工厂类
         </P></V> */
-        fun  mvpCreate(fragment: RxFragment): MvpPresenterFactroyImpl { //拿到创建presenter的注解
+        fun  mvpCreate(fragment: BaseFragment): MvpPresenterFactroyImpl { //拿到创建presenter的注解
             val currentPresenter: ArrayList<BasePresenter<out IBaseView>> = ArrayList<BasePresenter<out IBaseView>>()
             try {
                 val fields = fragment.javaClass.declaredFields
@@ -57,6 +58,35 @@ class MvpPresenterFactroyImpl   constructor(presenterClass: ArrayList<BasePresen
             return MvpPresenterFactroyImpl(currentPresenter)
         }
 
+        fun  mvpCreate(fragment: BaseFragmentX): MvpPresenterFactroyImpl { //拿到创建presenter的注解
+            val currentPresenter: ArrayList<BasePresenter<out IBaseView>> = ArrayList<BasePresenter<out IBaseView>>()
+            try {
+                val fields = fragment.javaClass.declaredFields
+                for (field in fields) {
+                    if (field.isAnnotationPresent(CreatePresenterAnnotation::class.java)) {
+                        Log.e("HU", "MvpPresenterFactroyImpl=11111===$fields")
+                        val address = field.getAnnotation(CreatePresenterAnnotation::class.java)
+                        val presenter: KClass<out BasePresenter<out IBaseView>> = address.value
+                        try {
+                            field.isAccessible = true //设置属性值的访问权限
+                            val presenter1: BasePresenter<out IBaseView> = presenter.java.newInstance()!!
+                            Log.e("HU", "MvpPresenterFactroyImpl=3333=presenter1==$presenter1")
+                            field[fragment] = presenter1 //将查找到的view指定给目标对象object
+                            Log.e("HU", "MvpPresenterFactroyImpl=444=presenter1==$presenter1")
+                            currentPresenter.add(presenter1)
+                        } catch (e: IllegalAccessException) {
+                            e.printStackTrace()
+                        } catch (e: InstantiationException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("HU", "MvpPresenterFactroyImpl=2222===$e")
+                e.printStackTrace()
+            }
+            return MvpPresenterFactroyImpl(currentPresenter)
+        }
         /**
          * 根据注解创建Presenter的工厂实现类
          *

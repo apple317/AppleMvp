@@ -9,7 +9,7 @@ import com.trello.rxlifecycle3.components.support.RxFragment
 /**
  * @author applehsp
  */
-abstract class BaseFragment : RxFragment() {
+abstract class BaseFragmentX : RxFragment() {
     /**
      * 获取宿主Activity
      *
