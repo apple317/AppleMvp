@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trello.rxlifecycle3.components.support.RxFragment
+
 /**
  * @author applehsp
  */
@@ -23,10 +24,12 @@ abstract class BaseFragmentX : RxFragment() {
         holdingActivity = context as BaseActivity
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         rootView = inflater.inflate(setLayoutId(), container, false)
-        initView()
-        initData()
         return rootView
     }
 
@@ -35,10 +38,10 @@ abstract class BaseFragmentX : RxFragment() {
     }
 
 
+    abstract fun setLayoutId(): Int
+    abstract fun initView()
+    abstract fun initData(savedInstanceState: Bundle?)
 
-     abstract fun setLayoutId(): Int
-     abstract fun initView()
-     abstract fun initData()
 
     /**
      * 弹出栈顶部的Fragment
@@ -47,5 +50,9 @@ abstract class BaseFragmentX : RxFragment() {
         holdingActivity!!.popFragment()
     }
 
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initView()
+        initData(savedInstanceState)
+    }
 }

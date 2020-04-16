@@ -19,12 +19,8 @@ interface IBaseView {
     fun <T> bindLifeycle(loadProgress: Boolean): LifecycleTransformer<T>
 
     /**
-     * 显示正在加载
+     * 显示隐藏转圈
      */
-    fun showProgress()
+    fun showProgress(loading: Boolean)
 
-    /**
-     * 隐藏正在加载
-     */
-    fun hideProgress()
 }

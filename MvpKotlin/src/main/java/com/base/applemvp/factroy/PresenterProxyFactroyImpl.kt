@@ -9,12 +9,12 @@ import java.util.ArrayList
 /**
  * applehsp
  */
-class PresenterProxyFactroyImpl  constructor(override var presenterFactory: IMvpPresenterFactroy<BasePresenter<out IBaseView>>) : IPresenterProxyFactroy {
+class PresenterProxyFactroyImpl  constructor(override var presenterFactory: IMvpPresenterFactroy<BasePresenter<*>>) : IPresenterProxyFactroy {
     /**
      * Presenter工厂类
      */
-    var mFactory: IMvpPresenterFactroy<BasePresenter<out IBaseView>> ? = null
-    var mPresenter: ArrayList<BasePresenter<out IBaseView>>? = null
+    var mFactory: IMvpPresenterFactroy<BasePresenter<*>> ? = null
+    var mPresenter: ArrayList<BasePresenter<*>>? = null
     private var mBundle: Bundle? = null
     private var mIsAttchView = false
 

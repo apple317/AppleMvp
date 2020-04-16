@@ -48,12 +48,8 @@ abstract class BaseMvpFragment : BaseFragment(), IBaseView {
 
 
 
-    override fun showProgress() {}
-    override fun hideProgress() {}
     override fun <T> bindLifeycle(loading: Boolean): LifecycleTransformer<T> {
-        if (loading) {
-            showProgress()
-        }
+        showProgress(loading)
         return bindUntilEvent(FragmentEvent.DESTROY)
     }
 

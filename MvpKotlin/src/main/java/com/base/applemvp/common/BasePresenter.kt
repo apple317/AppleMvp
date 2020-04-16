@@ -31,7 +31,7 @@ abstract class BasePresenter<V : IBaseView> {
      *
      * 弱引用, 防止内存泄漏
      */
-    var weak =Weak<IBaseView>()
+    var weak =Weak<V>()
     /**
      * 解决第二个问题
      */
@@ -43,9 +43,9 @@ abstract class BasePresenter<V : IBaseView> {
      */
     @Suppress("UNCHECKED_CAST")
     fun attatchView(v: IBaseView) {
-        weak.weakReference=WeakReference(v)
+        weak.weakReference=WeakReference(v as V)
         val viewHandler = weak.weakReference.get()?.let { MvpViewHandler(it) }
-        view = Proxy.newProxyInstance(this::class.java.classLoader, v.javaClass.interfaces,viewHandler)as V
+        view = Proxy.newProxyInstance(this::class.java.classLoader, v.javaClass.interfaces,viewHandler) as V?
     }
 
     /**

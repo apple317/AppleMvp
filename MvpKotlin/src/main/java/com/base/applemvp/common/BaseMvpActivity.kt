@@ -15,9 +15,8 @@ abstract class BaseMvpActivity : BaseActivity(), IBaseView {
      * @return
      */
     override fun <T> bindLifeycle(loading: Boolean): LifecycleTransformer<T> {
-        if (loading) {
-            showProgress()
-        }
+        showProgress(loading)
+        Log.e("HU", "bindLifeycle====");
         return bindToLifecycle()
     }
     val mProxy=PresenterProxyFactroyImpl( MvpPresenterFactroyImpl.mvpCreate(this))
@@ -50,8 +49,7 @@ abstract class BaseMvpActivity : BaseActivity(), IBaseView {
     }
 
 
-    override fun showProgress() {}
-    override fun hideProgress() {}
+    override fun showProgress(loading: Boolean) {}
 
 
 }
