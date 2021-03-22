@@ -2,10 +2,13 @@ package com.app.applemvp
 
 import com.base.applemvp.common.BaseMvpFragment
 
+
 class UserFragment : BaseMvpFragment(){
 
     override fun initData() {
     }
+
+
 
     override fun initView() {
     }
