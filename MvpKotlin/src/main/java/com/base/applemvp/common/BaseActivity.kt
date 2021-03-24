@@ -20,7 +20,6 @@ abstract class BaseActivity : RxAppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(setLayoutId())
         instance.addActivity(this)
         initView(savedInstanceState)
         initData()
@@ -42,11 +41,6 @@ abstract class BaseActivity : RxAppCompatActivity() {
         }
         currentFragment = fragment
     }
-
-    /**
-     * 子类必须重写
-     */
-    abstract fun setLayoutId(): Int
 
     protected abstract fun initData()
     protected abstract fun initView(savedInstanceState: Bundle?)

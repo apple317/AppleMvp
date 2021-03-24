@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Button
-        android:id="@+id/btnSync"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="appSync-->main方法" />
+    <data>
+        <import type="com.app.applemvp.MainEntity" />
+        <variable
+            name="userInfo"
+            type="MainEntity" />
 
-    <Button
-        android:id="@+id/btnAdvert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="advertList-->splash方法" />
+        <import type="android.view.View"/>
+
+        <variable
+            name="MainAct"
+            type="com.app.applemvp.MainActivity" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtMainName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userInfo.name}"
+            android:onClick="@{(view)->MainAct.onClick(view)}"/>
 
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</layout>

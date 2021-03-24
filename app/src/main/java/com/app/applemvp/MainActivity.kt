@@ -1,40 +1,48 @@
 package com.app.applemvp
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.databinding.DataBindingUtil
+import com.app.applemvp.databinding.ActivityMainBinding
 import com.app.applemvp.mvp.MainPresenter
 import com.app.applemvp.mvp.MainView
-import com.app.applemvp.mvp.SplashPresenter
-import com.app.applemvp.mvp.SplashView
 import com.base.applemvp.annotations.CreatePresenterAnnotation
 import com.base.applemvp.common.BaseMvpActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseMvpActivity(), SplashView, MainView {
 
-    @CreatePresenterAnnotation(SplashPresenter::class)
-    var splashPresenter: SplashPresenter? = null
+class MainActivity : BaseMvpActivity(), MainView {
+
+    lateinit var binding: ActivityMainBinding
+    lateinit var entity:MainEntity
     @CreatePresenterAnnotation(MainPresenter::class)
     var mainPresenter: MainPresenter? = null
 
-    override fun setLayoutId(): Int {
-        return R.layout.activity_main
-    }
 
     override fun initData() {
-        btnAdvert.setOnClickListener { splashPresenter?.advertList("kotlin 广告") }
-        btnSync.setOnClickListener { mainPresenter?.appSync("kotlin 同步") }
-    }
-
-    override fun appSync(msg: String) {
-        btnSync.text = msg
-    }
-
-    override fun advertList(advert: String) {
-        btnAdvert.text = advert
+        Log.e("HU", "initData======" + mainPresenter);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+        entity= MainEntity(application)
+        binding.userInfo = entity
+        binding.mainAct=this
+        mainPresenter?.appSync("xxxxxxx")
     }
 
     override fun initView(savedInstanceState: Bundle?) {
 
     }
+
+    override fun appSync(msg: String) {
+        Log.e("HU", "appSync===xx===" + msg);
+        entity.name.postValue(msg)
+    }
+
+
+    fun  onClick(view:View){
+        Log.e("HU", "onClick")
+        entity.name.postValue("mmmmm"+view.id.toString())
+    }
+
 
 }

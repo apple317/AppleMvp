@@ -25,8 +25,7 @@ abstract class BaseFragment : RxFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(setLayoutId(), container, false)
-
+        rootView = initView(inflater,container,savedInstanceState)
         return rootView
     }
 
@@ -36,9 +35,9 @@ abstract class BaseFragment : RxFragment() {
 
 
 
-     abstract fun setLayoutId(): Int
-     abstract fun initView()
-     abstract fun initData(savedInstanceState: Bundle?)
+    abstract fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):View
+
+    abstract fun initData(savedInstanceState: Bundle?)
 
     /**
      * 弹出栈顶部的Fragment
@@ -50,7 +49,6 @@ abstract class BaseFragment : RxFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initView()
         initData(savedInstanceState)
     }
 

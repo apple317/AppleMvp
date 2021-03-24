@@ -29,7 +29,7 @@ abstract class BaseFragmentX : RxFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(setLayoutId(), container, false)
+        rootView = initView(inflater,container,savedInstanceState)
         return rootView
     }
 
@@ -38,8 +38,7 @@ abstract class BaseFragmentX : RxFragment() {
     }
 
 
-    abstract fun setLayoutId(): Int
-    abstract fun initView()
+    abstract fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):View
     abstract fun initData(savedInstanceState: Bundle?)
 
 
@@ -52,7 +51,6 @@ abstract class BaseFragmentX : RxFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initView()
         initData(savedInstanceState)
     }
 }
