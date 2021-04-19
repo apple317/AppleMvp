@@ -1,5 +1,6 @@
 package com.app.applemvp.mvp
 
+import android.util.Log
 import com.base.applemvp.common.BasePresenter
 
 /**
@@ -10,6 +11,6 @@ class MainPresenter : BasePresenter<MainView>() {
      * 初始化
      */
     fun appSync(message: String) {
-        view!!.appSync(message)
+        view!!.appSync("xxxxdddddd")
     }
 }
